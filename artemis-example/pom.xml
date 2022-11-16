@@ -1,0 +1,22 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>malinin</groupId>
+  <artifactId>artemis-example</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  
+  <properties>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> <!-- To prevent warning "Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!" -->
+	<artemis.version>2.26.0</artemis.version>
+  </properties>
+  
+  <dependencies>
+      <dependency>
+         <groupId>org.apache.activemq</groupId>
+         <artifactId>artemis-jakarta-client-all</artifactId>
+         <version>${artemis.version}</version>
+      </dependency>
+  </dependencies>
+
+</project>
