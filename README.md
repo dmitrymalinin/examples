@@ -1,20 +1,24 @@
 # examples
 Демо-проекты для отработки различных технологий, решений.
 
-Проект spi-example
-------------------
+spi-example
+------------
 * Использование технологии SPI  
 * Загрузка jar из каталога providers/ с использованием URLClassLoader  
 
-Проект artemis-example
-----------------------
-* Использование очереди в режиме Producer-Consumer
-* Использование очереди в режиме Request-Response
+artemis-example
+----------------
+* Использование очереди ActiveMQ в режиме Producer-Consumer
+* Использование очереди ActiveMQ в режиме Request-Response
 
-Проект gost-key-gen-example
----------------------------
+gost-key-gen-example
+---------------------
 * Создание ключей по алгоритму ГОСТ с использованием BouncyCastle
 * Создание сертификата для тестовой среды ЕСИА  
 * Запись сертификата и ключей в KeyStore
 * Чтение сертификата и ключей из KeyStore
 * Экспорт сертификата в PEM
+
+resteasy-example
+----------------
+* SE Bootstrap
