@@ -61,3 +61,4 @@ java -cp /home/dm/git/examples/artemis-example/target/classes:/home/dm/.m2/repos
 ```
 java -cp /home/dm/git/examples/artemis-example/target/classes:/home/dm/.m2/repository/org/apache/activemq/artemis-jakarta-client-all/2.26.0/artemis-jakarta-client-all-2.26.0.jar -XX:+ShowCodeDetailsInExceptionMessages queueRequestor.TestQueueRequestorClient
 ```
+Можно запускать несколько экземпляров.
