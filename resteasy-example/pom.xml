@@ -46,6 +46,33 @@
         <groupId>org.jboss.resteasy</groupId>
         <artifactId>resteasy-client</artifactId>
     </dependency>
-
   </dependencies>
+  
+  <build>
+  <plugins>
+  	<plugin>
+  		<artifactId>maven-assembly-plugin</artifactId>
+  		<version>3.4.2</version>
+  		<executions>
+			<execution>
+				<id>make-assembly</id>
+				<phase>package</phase>
+				<goals>
+					<goal>single</goal>
+				</goals>
+			</execution>
+		</executions>
+		<configuration>
+			<descriptorRefs>
+				<descriptorRef>jar-with-dependencies</descriptorRef>
+			</descriptorRefs>
+			<archive>
+				<manifest>
+					<mainClass>bootstrap.Main</mainClass>
+				</manifest>
+			</archive>
+		</configuration>
+  	</plugin>
+  </plugins>
+  </build>
 </project>
