@@ -22,3 +22,5 @@ gost-key-gen-example
 resteasy-example
 ----------------
 * SE Bootstrap
+* Использование maven-assembly-plugin для сборки jar с зависимостями
+* systemd unit
