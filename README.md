@@ -24,3 +24,7 @@ resteasy-example
 * SE Bootstrap
 * Использование maven-assembly-plugin для сборки jar с зависимостями
 * systemd unit
+
+yandex-task
+-----------
+Тестовое задание для компании "Яндекс"  
