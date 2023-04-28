@@ -4,6 +4,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import jakarta.ws.rs.SeBootstrap;
+import service.TestRSApplication;
 
 /**
  * см. 
