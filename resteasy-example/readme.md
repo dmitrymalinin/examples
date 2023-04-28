@@ -1,7 +1,11 @@
 Использование RESTEasy
 =======================
 * SE Bootstrap
+* resteasy-jackson2-provider
+* Версионирование API с использованием заголовка Content-Type
 * Использование maven-assembly-plugin для сборки jar с зависимостями
+* Использование maven-war-plugin для сборки war
+* Развёртывание на Tomcat 10.1.8
 * systemd unit
 
 см.  
@@ -10,6 +14,15 @@
 3. An Introduction to the RESTEasy SeBootstrap Usage [https://resteasy.dev/2022/11/01/sebootstrap-usage/](https://resteasy.dev/2022/11/01/sebootstrap-usage/)  
 4. Apache Maven Assembly Plugin Usage [https://maven.apache.org/plugins/maven-assembly-plugin/usage.html](https://maven.apache.org/plugins/maven-assembly-plugin/usage.html)  
 
+##### Сборка
+war: `mvn clean compile war:war`  
+jar: `mvn clean package`  
+
+##### Развёртывание на Tomcat 10.1.8
+
+Собрать war  
+Скопировать war в каталог webapps  
+Сервис будет доступен по адресу http://localhost:8080/resteasy-example/
 
 ##### Создание файла юнита и запуск сервиса
 
