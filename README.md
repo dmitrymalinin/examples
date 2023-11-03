@@ -21,9 +21,16 @@ gost-key-gen-example
 
 resteasy-example
 ----------------
+* Версионирование REST API
 * SE Bootstrap
 * Использование maven-assembly-plugin для сборки jar с зависимостями
 * systemd unit
+
+documentingAPIs
+---------------
+* Документирование REST API  
+* OpenAPI
+* redoc
 
 yandex-task
 -----------
