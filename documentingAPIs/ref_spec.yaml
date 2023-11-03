@@ -1,0 +1,467 @@
+---
+openapi: 3.1.0
+info:
+  title: Справочный сервис
+  description: |
+    API справочного сервиса. 
+    Это API используется для получения данных из справочников, создания новых, а также для внесения изменений в существующие справочники.
+
+    ## Авторизация  
+    Для определения прав доступа к методам API используется HTTP авторизация. Токен доступа (RPT, полученный от Keycloak) передаётся в заголовке *Authorization*.  
+    
+    ## Ошибки  
+    API использует стандартные HTTP коды для сообщения об успешности или не успешности вызова API. В случае неуспеха, теле ответа
+    содержится JSON с сообщением об ошибке.  
+    
+    ## Версионирование  
+    Версионирование API с использованием HTTP заголовка *Content-Type*.  
+    Клиент передаёт информацию о версии вызываемого метода в заголовке *Accept*. Например, `Accept: application/vnd.ref.api-v1.0+json`  
+    
+  version: '1.0'
+  license:
+    name: Unlicense
+    url: https://opensource.org/license/unlicense/
+servers:
+  - url: http://localhost:8080
+    description: Локальный сервер
+security:
+  - jwt: [read]
+tags:
+- name: Reference
+  x-displayName: Справочники
+  description: Операции с описанием справочников
+- name: ReferenceItem
+  x-displayName: Данные справочников
+  description: Операции с данными справочников
+paths:
+  /refs:
+    get:
+      operationId: refsAll
+      summary: Список доступных справочников
+      description: Возвращает список доступных справочников
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Reference"
+              example:
+              - id: 1
+                name: collections
+                key: label
+                descr: Коллекции книжного каталога
+              - id: 2
+                name: nsnr-2018
+                key: code
+                descr: Номенклатура научных специальностей на 23.03.2018
+              - id: 3
+                name: nsnr-2022
+                key: code
+                descr: Номенклатура научных специальностей с изменениями на 11 мая 2022 года
+        401:
+          description: пользователь не прошёл аутентификацию
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message: Unauthorized
+        500:
+          description: ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message: Internal server error
+      tags:
+      - Reference
+  /refs/create:
+    post:
+      operationId: refCreate
+      summary: Создание нового справочника
+      requestBody:
+        required: true
+        description: Описание нового справочника
+        content:
+          application/json:
+              schema:
+                $ref: "#/components/schemas/Reference"
+              example:
+                name: collections
+                key: label
+                descr: Коллекции книжного каталога
+      responses:
+        201:
+          description: справочник создан
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: 
+                    type: integer
+                    description: ID справочника
+                example:
+                  id: 1
+        400:
+          description: ошибка в запросе
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message: Требуется задать наименование справочника
+        409:
+          description: конфликт
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message: Справочник с таким наименованием уже существует 
+        500:
+          description: ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message: Internal server error
+      security:
+        - jwt: [read,write]
+      tags:
+      - Reference
+  /refs/{id}/update:
+    post:
+      operationId: refUpdate
+      summary: Изменение существующего справочника
+      description: |
+        Описание существующего справочника приводится в соответствие с заданным в запросе. 
+        Запрос должен содержать описание справочника полностью, кроме *id*.
+      requestBody:
+        required: true
+        description: Описание справочника
+        content:
+          application/json:
+              schema:
+                $ref: "#/components/schemas/Reference"
+              example:
+                name: collections
+                key: label
+                descr: Коллекции книжного каталога
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: ID справочника
+      responses:
+        204:
+          description: справочник изменён
+        400:
+          description: ошибка в запросе
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message: Требуется задать наименование справочника
+        404:
+          description: нет такого справочника
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message: Справочник с ID=12345 не существует
+        409:
+          description: конфликт
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message: Существует другой справочник с таким же наименованием  
+        500:
+          description: ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message: Internal server error
+      security:
+        - jwt: [read,write]
+      tags:
+      - Reference
+  /refs/{id}/delete:
+    delete:
+      operationId: refDelete
+      summary: Удаление существующего справочника
+      description: Существующий справочник полностью удаляется вместе со всеми его данными
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: ID справочника
+      responses:
+        204:
+          description: справочник успешно удалён
+        404:
+          description: нет такого справочника
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message: Справочник с ID=12345 не существует
+        500:
+          description: ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message: Internal server error
+      security:
+        - jwt: [read,write]
+      tags:
+      - Reference
+  /refs/{id}:
+    get:
+      operationId: refById
+      summary: Описание справочника по ID
+      description: Возвращает описание справочника по его ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: ID справочника
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Reference"
+              example:
+                id: 1
+                name: collections
+                key: label
+                descr: Коллекции книжного каталога
+        404:
+          description: нет такого справочника
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message: Справочник с ID=12345 не существует
+        500:
+          description: ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message: Internal server error
+      tags:
+      - Reference
+  /refs/{id}/items:
+    get:
+      operationId: refItemsById
+      summary: Элементы справочника
+      description: Возвращаемые элементы будут отсортированы по ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: ID справочника
+      - name: startPos
+        in: query
+        schema: 
+          type: integer
+          default: 0
+        description: Позиция первой возвращаемой записи в результирующем наборе, начиная с 0.
+      - name: limit
+        in: query
+        schema: 
+          type: integer
+          default: 100
+        description: Максимальное количество записей в результирующем наборе.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                    description: Общее количество записей
+                  startPos:
+                    type: integer
+                    description: Позиция первой записи в результирующем наборе, начиная с 0.
+                  endPos:
+                    type: integer
+                    description: Позиция последней записи в результирующем наборе, начиная с 0.
+                  items:
+                    type: array
+                    description: Список элементов справочника
+                    items:
+                      $ref: "#/components/schemas/ReferenceItem"
+              example:
+                total: 3
+                startPos: 0
+                endPos: 3
+                items:
+                - id: 1
+                  ref_id: 1
+                  key_val: autoref
+                  vals:
+                  - id: 1
+                    item_id: 1
+                    name: name
+                    val: Авторефераты диссертаций
+                  - id: 2
+                    item_id: 1
+                    name: name_en
+                    val: Abstracts of Dissertations
+                - id: 2
+                  ref_id: 1
+                  key_val: disser
+                  vals:
+                  - id: 1
+                    item_id: 2
+                    name: name
+                    val: Диссертации
+                  - id: 2
+                    item_id: 2
+                    name: name_en
+                    val: Dissertations
+                - id: 3
+                  ref_id: 1
+                  key_val: gaz
+                  vals:
+                  - id: 1
+                    item_id: 3
+                    name: name
+                    val: Газеты
+                  - id: 2
+                    item_id: 3
+                    name: name_en
+                    val: Newspapers
+        404:
+          description: нет такого справочника
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message: Справочник с ID=12345 не существует
+        500:
+          description: ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                message: Internal server error
+      tags:
+      - ReferenceItem
+# TODO      
+components:
+  schemas:
+    Reference:
+      type: object
+      title: Справочник
+      description: Описание справочника
+      properties:
+        id:
+          type: integer
+          description: ID справочника
+          readOnly: true
+        name:
+          type: string
+          description: Наименование справочника, уникальное для данного справочного сервиса.
+        key:
+          type: string
+          description: Имя колючевого поля, если такое поле есть в справочнике
+        descr:
+          type: string
+          description: Описание справочника
+      required:
+      - name
+    ReferenceItem:
+      type: object
+      title: Элемент справочника
+      description: Элемент справочника
+      properties:
+        id:
+          type: integer
+          description: ID элемента
+          readOnly: true
+        ref_id:
+          type: integer
+          description: ID справочника, содержащего элемент
+        key_val:
+          type: string
+          description: Значение ключевого поля справочника. Вместе с *ref_id* это значение должно быть уникальным
+        vals:
+          type: array
+          description: Элементы данных
+          items:
+            $ref: "#/components/schemas/ItemVal"
+      required:
+      - ref_id
+    ItemVal:
+      type: object
+      title: Элемент данных
+      description: Элемент данных
+      properties:
+        id:
+          type: integer
+          description: ID элемента данных
+          readOnly: true
+        item_id:
+          type: integer
+          description: ID элемента справочника
+        name:
+          type: string
+          description: Имя элемента данных
+        val:
+          type: string
+          description: Данные
+      required:
+      - item_id
+      - name
+    ErrorResponse:
+      type: object
+      title: Ошибка
+      description: Описание ошибки
+      properties:
+        message:
+          type: string
+          description: Сообщение об ошибке
+          readOnly: true
+      required:
+      - message
+  securitySchemes:
+    jwt:
+      description: |
+        Авторизация с использованием RPT, полученного от Keycloak
+      type: http
+      scheme: bearer
+      bearerFormat: JWT      
