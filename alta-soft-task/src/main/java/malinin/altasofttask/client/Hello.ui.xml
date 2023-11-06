@@ -1,0 +1,25 @@
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	
+	<ui:style>
+		.labelHello {
+			text-align: center;
+			margin: 100px;
+			font-size: 5em;
+		}
+		.labelDate {
+			text-align: center;
+			color: grey;
+		}
+	</ui:style>
+	
+	<g:LayoutPanel>
+		<g:layer>
+			<g:VerticalPanel width="100%">
+				<g:Label ui:field="labelHello" styleName="{style.labelHello}"/>
+				<g:Label ui:field="labelDate" styleName="{style.labelDate}"/>
+			</g:VerticalPanel>
+		</g:layer>
+	</g:LayoutPanel>
+
+</ui:UiBinder>
