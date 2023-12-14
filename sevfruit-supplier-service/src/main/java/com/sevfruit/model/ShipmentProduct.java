@@ -21,12 +21,14 @@ public class ShipmentProduct {
 	@EmbeddedId
 	private ShipmentProductId id;
 	
-	@JoinColumns({@JoinColumn(name = "shipment_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false),
+	@JoinColumns({
+		@JoinColumn(name = "shipment_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false),
 		@JoinColumn(name = "price_id", referencedColumnName = "price_id", nullable = false, insertable = false, updatable = false)})
 	@ManyToOne(optional = false)
 	private Shipment shipment;
 	
-	@JoinColumns({@JoinColumn(name = "price_id", referencedColumnName = "price_id", nullable = false, insertable = false, updatable = false),
+	@JoinColumns({
+		@JoinColumn(name = "price_id", referencedColumnName = "price_id", nullable = false, insertable = false, updatable = false),
 		@JoinColumn(name = "product_id", referencedColumnName = "product_id", nullable = false, insertable = false, updatable = false)})
 	@ManyToOne(optional = false)
 	private PriceProduct priceProduct;

@@ -9,7 +9,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinColumns;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -33,12 +32,7 @@ public class Shipment {
 	private Price price;
 	
 	/** Список продукции в поставке */
-	@JoinColumns(
-		{
-			@JoinColumn(name = "price_id", referencedColumnName = "price_id", nullable = false, insertable = false, updatable = false),
-			@JoinColumn(name = "shipment_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)		
-		})
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "shipment", fetch = FetchType.LAZY)
 	private List<ShipmentProduct> products;
 	
 	public Shipment() {

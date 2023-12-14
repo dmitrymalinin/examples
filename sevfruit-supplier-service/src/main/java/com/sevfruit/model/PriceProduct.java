@@ -20,6 +20,10 @@ public class PriceProduct {
 	@EmbeddedId
 	private PriceProductId id;
 	
+	@JoinColumn(name = "price_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+	@ManyToOne(optional = false)	
+	private Price price;
+	
 	@JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
 	@ManyToOne(optional = false)	
 	private Product product;
@@ -62,7 +66,6 @@ public class PriceProduct {
 		this.id = id;
 	}
 
-
 	public Product getProduct() {
 		return product;
 	}
@@ -79,10 +82,9 @@ public class PriceProduct {
 		this.value = value;
 	}
 
-
 	@Override
 	public String toString() {
-		return "PriceProduct [id=" + id + ", product=" + product + ", value=" + value + "]";
+		return "PriceProduct [id=" + id + ", price=" + price + ", product=" + product + ", value=" + value + "]";
 	}
 	
 }

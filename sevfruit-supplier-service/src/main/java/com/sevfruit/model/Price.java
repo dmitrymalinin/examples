@@ -36,8 +36,7 @@ public class Price {
 	private Period period;
 
 	/** Список продукции с ценами */
-	@JoinColumn(name = "price_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "price", fetch = FetchType.LAZY)
 	private List<PriceProduct> products;
 
 	public Price() {

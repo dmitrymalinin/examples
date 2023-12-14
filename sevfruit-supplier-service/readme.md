@@ -38,7 +38,7 @@ ER диаграмма находится в файле [db/db-er.pdf](db/db-er.p
 ```
 java -jar supplier-service.jar
 ```
-По умолчанию при каждом запуске сервиса таблицы БД создаются заново в схеме *sevfruit* и заполняются данными.  
+По умолчанию при каждом запуске сервиса таблицы БД создаются заново в схеме *sevfruit*.  
 
 Настроечные параметры:  
 
@@ -48,13 +48,14 @@ spring.datasource.username=sevfruituser
 spring.datasource.password=password
 spring.jpa.properties.hibernate.default_schema=sevfruit
 server.error.include-message=always
-app.db.init.enabled=true
+app.db.init.enabled=false
 spring.jpa.hibernate.ddl-auto=create
 spring.sql.init.mode=always
 ```
 Пользователь БД должен иметь разрещение *CREATE* для заданной в URL БД: `GRANT CREATE ON DATABASE training TO sevfruituser;`  
 
 За заполнение начальными данными отвечает параметр *app.db.init.enabled*  
+Запуск сервиса с заполнением БД начальными данными: `java -Dapp.db.init.enabled=true -jar supplier-service.jar`  
 
 
 ### Ссылки
