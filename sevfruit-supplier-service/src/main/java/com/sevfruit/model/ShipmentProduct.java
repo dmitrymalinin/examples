@@ -5,8 +5,6 @@ import org.springframework.lang.NonNull;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinColumns;
 import jakarta.persistence.ManyToOne;
@@ -19,27 +17,14 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "SHIPMENT_PRODUCT")
-//@IdClass(ShipmentProductId.class)
 public class ShipmentProduct {
 	@EmbeddedId
 	private ShipmentProductId id;
 	
-//	@Id
-//	@Column(name = "shipment_id")
-//	private int shipment_id;
-//	
-//	@Id
-//	@Column(name = "price_id")
-//	private int price_id;
-//	
-//	@Id
-//	@Column(name = "product_id")
-//	private int product_id;
-	
-//	@JoinColumns({@JoinColumn(name = "shipment_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false),
-//		@JoinColumn(name = "price_id", referencedColumnName = "price_id", nullable = false, insertable = false, updatable = false)})
-//	@ManyToOne(optional = false)
-//	private Shipment shipment;
+	@JoinColumns({@JoinColumn(name = "shipment_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false),
+		@JoinColumn(name = "price_id", referencedColumnName = "price_id", nullable = false, insertable = false, updatable = false)})
+	@ManyToOne(optional = false)
+	private Shipment shipment;
 	
 	@JoinColumns({@JoinColumn(name = "price_id", referencedColumnName = "price_id", nullable = false, insertable = false, updatable = false),
 		@JoinColumn(name = "product_id", referencedColumnName = "product_id", nullable = false, insertable = false, updatable = false)})

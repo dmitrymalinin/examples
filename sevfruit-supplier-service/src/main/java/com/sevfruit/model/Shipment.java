@@ -33,13 +33,11 @@ public class Shipment {
 	private Price price;
 	
 	/** Список продукции в поставке */
-	//TODO не делает FK на два поля 
-//	@JoinColumns(
-//		{
-//			@JoinColumn(name = "price_id", referencedColumnName = "price_id", nullable = false, insertable = false, updatable = false),
-//			@JoinColumn(name = "shipment_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)		
-//		})
-	@JoinColumn(name = "shipment_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+	@JoinColumns(
+		{
+			@JoinColumn(name = "price_id", referencedColumnName = "price_id", nullable = false, insertable = false, updatable = false),
+			@JoinColumn(name = "shipment_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)		
+		})
 	@OneToMany(fetch = FetchType.LAZY)
 	private List<ShipmentProduct> products;
 	
