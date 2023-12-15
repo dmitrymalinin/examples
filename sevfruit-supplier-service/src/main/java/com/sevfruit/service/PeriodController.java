@@ -1,11 +1,9 @@
 package com.sevfruit.service;
 
-import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,9 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.sevfruit.model.Period;
+import com.sevfruit.model.ProductTotal;
 import com.sevfruit.model.Supplier;
 import com.sevfruit.model.SupplierProductReportLine;
-import com.sevfruit.model.ProductTotal;
+import com.sevfruit.model.SupplierProductsReport;
 import com.sevfruit.repo.PeriodRepository;
 
 /**
@@ -80,7 +79,7 @@ public class PeriodController {
 	 * @return
 	 */
 	@GetMapping("{period_id}/report")
-	public Map<Supplier, List<ProductTotal>> getSupplierProductReport(@PathVariable int period_id, Locale locale)
+	public List<SupplierProductsReport> getSupplierProductReport(@PathVariable int period_id, Locale locale)
 	{
 		final Optional<Period> period = periodRepository.findById(period_id);
 		if (!period.isPresent())
@@ -90,10 +89,21 @@ public class PeriodController {
 		}
 		final List<SupplierProductReportLine> reportLines = periodRepository.getSupplierProductReport(period.get());
 		
-		return reportLines.stream().collect(
-				Collectors.groupingBy(SupplierProductReportLine::getSupplier, LinkedHashMap::new, Collectors.mapping(
-						ProductTotal::fromReportLine, Collectors.toList())
-				)
-			);
+		// Сгруппировать информацию по каждому поставщику
+		final List<SupplierProductsReport> res = new LinkedList<>();
+		int prev_supplier_id = -1;
+		SupplierProductsReport supplierProductsReport = null;
+		for (SupplierProductReportLine line : reportLines) {
+			Supplier supplier = line.getSupplier();
+			if (supplier.getId() != prev_supplier_id)
+			{
+				prev_supplier_id = supplier.getId();
+				supplierProductsReport = new SupplierProductsReport(supplier);
+				res.add(supplierProductsReport);
+			}
+			supplierProductsReport.addProduct(ProductTotal.fromReportLine(line));
+		}		
+		
+		return res;
 	}
 }
