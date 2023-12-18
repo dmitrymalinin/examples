@@ -43,7 +43,7 @@ public class PeriodController {
 	
 	/**
 	 * Список всех периодов <br/>
-	 * {@code  curl http://localhost:8080/period | jq}
+	 * {@code  curl -H "Api-Key: 12345" http://localhost:8080/period | jq}
 	 * @return
 	 */
 	@GetMapping("")
@@ -54,7 +54,7 @@ public class PeriodController {
 	
 	/**
 	 * Добавить новый период<br/>
-	 * {@code curl -w '\n' -D - -X POST -H "Content-type: application/json" -d '{"name": "2024"}' http://localhost:8080/period}
+	 * {@code curl -w '\n' -D - -X POST -H "Api-Key: 12345" -H "Content-type: application/json" -d '{"name": "2024"}' http://localhost:8080/period}
 	 * @param period
 	 * @return
 	 */
@@ -73,7 +73,7 @@ public class PeriodController {
 	/**
 	 * Отчёт поступление видов продукции по поставщикам с итогами по весу и стоимости.
 	 * <br/>
-	 * {@code curl -H "Accept-Language: ru" http://localhost:8080/period/3/report | jq}
+	 * {@code curl -H "Accept-Language: ru" -H "Api-Key: 12345" http://localhost:8080/period/3/report | jq}
 	 * @param period_id
 	 * @param locale
 	 * @return

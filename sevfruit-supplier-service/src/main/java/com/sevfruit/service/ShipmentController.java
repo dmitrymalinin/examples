@@ -34,7 +34,7 @@ public class ShipmentController {
 	
 	/**
 	 * Список всех поставок <br/>
-	 * {@code  curl http://localhost:8080/shipment | jq}
+	 * {@code  curl -H "Api-Key: 12345" http://localhost:8080/shipment | jq}
 	 * @return
 	 */
 	@GetMapping("")
@@ -45,7 +45,7 @@ public class ShipmentController {
 	
 	/**
 	 * Добавить новую поставку <br/>
-	 * {@code curl -w '\n' -D - -X POST -H "Content-type: application/json" -d '{"price":3, "products": [{"priceProduct":{"product":4},"quantity":2.0}, {"priceProduct":{"product":1},"quantity":12.0}]}' http://localhost:8080/shipment }
+	 * {@code curl -w '\n' -D - -X POST -H "Api-Key: 12345" -H "Content-type: application/json" -d '{"price":3, "products": [{"priceProduct":{"product":4},"quantity":2.0}, {"priceProduct":{"product":1},"quantity":12.0}]}' http://localhost:8080/shipment }
 	 * @param shipment
 	 * @return
 	 */

@@ -27,7 +27,7 @@ public class ProductController {
 	
 	/**
 	 * Список всей возможной продукции<br/>
-	 * {@code  curl http://localhost:8080/product | jq}
+	 * {@code  curl -H "Api-Key: 12345" http://localhost:8080/product | jq}
 	 * @return
 	 */
 	@GetMapping("")
@@ -38,7 +38,7 @@ public class ProductController {
 	
 	/**
 	 * Добавить новый продукт<br/>
-	 * {@code curl -w '\n' -D - -X POST -H "Content-type: application/json" -d '{"name": "Яблоки белые"}' http://localhost:8080/product}
+	 * {@code curl -w '\n' -D - -X POST -H "Api-Key: 12345" -H "Content-type: application/json" -d '{"name": "Яблоки белые"}' http://localhost:8080/product}
 	 * @param product
 	 * @return
 	 */

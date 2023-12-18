@@ -42,4 +42,4 @@ sevfruit-supplier-service
 Сервис учёта поставок для Северной Фруктовой Компании
 * проектирование схемы БД PostgreSQL
 * создание БД с помощью Hibernate
-* REST сервис на Spring (Spring Boot, Spring Data JPA)
+* REST сервис на Spring (Spring Boot, Spring Data JPA, Spring Security)

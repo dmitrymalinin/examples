@@ -32,7 +32,7 @@ public class PriceController {
 	
 	/**
 	 * Список всех прайс листов <br/>
-	 * {@code  curl http://localhost:8080/price | jq}
+	 * {@code  curl -H "Api-Key: 12345" http://localhost:8080/price | jq}
 	 * @return
 	 */
 	@GetMapping("")
@@ -43,7 +43,7 @@ public class PriceController {
 	
 	/**
 	 * Добавить новый прайс лист <br/>
-	 * {@code curl -w '\n' -D - -X POST -H "Content-type: application/json" -d '{"supplier": 3, "period": 4, "products": [{"product": 1, "value":111000}]}' http://localhost:8080/price}
+	 * {@code curl -w '\n' -D - -X POST -H "Api-Key: 12345" -H "Content-type: application/json" -d '{"supplier": 3, "period": 4, "products": [{"product": 1, "value":111000}]}' http://localhost:8080/price}
 	 * @param price
 	 * @return
 	 */

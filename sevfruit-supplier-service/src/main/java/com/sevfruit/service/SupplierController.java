@@ -27,7 +27,7 @@ public class SupplierController {
 	
 	/**
 	 * Список всех поставщиков <br/>
-	 * {@code  curl http://localhost:8080/supplier | jq}
+	 * {@code  curl -H "Api-Key: 12345" http://localhost:8080/supplier | jq}
 	 * @return
 	 */
 	@GetMapping("")
@@ -38,7 +38,7 @@ public class SupplierController {
 	
 	/**
 	 * Добавить нового поставщика<br/>
-	 * {@code curl -w '\n' -D - -X POST -H "Content-type: application/json" -d '{"name": "S4"}' http://localhost:8080/supplier}
+	 * {@code curl -w '\n' -D - -X POST -H "Api-Key: 12345" -H "Content-type: application/json" -d '{"name": "S4"}' http://localhost:8080/supplier}
 	 * @param supplier
 	 * @return
 	 */

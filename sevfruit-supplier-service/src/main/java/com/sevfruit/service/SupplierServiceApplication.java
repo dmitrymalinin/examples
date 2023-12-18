@@ -11,9 +11,18 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
 
 import com.sevfruit.model.Price;
 import com.sevfruit.model.PriceProduct;
@@ -29,10 +38,12 @@ import com.sevfruit.repo.ProductRepository;
 import com.sevfruit.repo.ShipmentProductRepository;
 import com.sevfruit.repo.ShipmentRepository;
 import com.sevfruit.repo.SupplierRepository;
+import com.sevfruit.security.ApiKeyAuthFilter;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = { SecurityAutoConfiguration.class, UserDetailsServiceAutoConfiguration.class})
 @EnableJpaRepositories("com.sevfruit.repo")
 @EntityScan("com.sevfruit.model")
+@ComponentScan("com.sevfruit.security")
 @EnableTransactionManagement
 public class SupplierServiceApplication {
 	private static final Logger logger = LoggerFactory.getLogger(SupplierServiceApplication.class);
@@ -58,6 +69,8 @@ public class SupplierServiceApplication {
 	@Autowired
 	private ShipmentProductRepository shipmentProductRepository;
 	
+	@Autowired
+	private ApiKeyAuthFilter authFilter;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SupplierServiceApplication.class, args);
@@ -71,6 +84,7 @@ public class SupplierServiceApplication {
 			logger.info("spring.datasource.url: {}", environment.getProperty("spring.datasource.url"));
 			logger.info("spring.jpa.properties.hibernate.default_schema: {}", environment.getProperty("spring.jpa.properties.hibernate.default_schema"));
 			logger.info("app.db.init.enabled: {}", environment.getProperty("app.db.init.enabled"));
+			logger.info("app.security.api-key: {}", environment.getProperty("app.security.api-key"));
 		};
 	}
 	
@@ -150,4 +164,6 @@ public class SupplierServiceApplication {
 			logger.info("initDB OK");
 		};
 	}
+	
+
 }

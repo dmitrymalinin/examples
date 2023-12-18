@@ -49,6 +49,7 @@ spring.datasource.password=password
 spring.jpa.properties.hibernate.default_schema=sevfruit
 server.error.include-message=always
 app.db.init.enabled=false
+app.security.api-key=12345
 spring.jpa.hibernate.ddl-auto=create
 spring.sql.init.mode=always
 ```
@@ -57,6 +58,13 @@ spring.sql.init.mode=always
 За заполнение начальными данными отвечает параметр *app.db.init.enabled*  
 Запуск сервиса с заполнением БД начальными данными: `java -Dapp.db.init.enabled=true -jar supplier-service.jar`  
 
+### Сборка документации в HTML
+
+Проверить корректность документации:  
+`redocly lint --skip-rule=no-server-example.com api-spec.yaml`
+
+Собрать HTML:  
+`redocly build-docs api-spec.yaml --output=api-spec.html`
 
 ### Ссылки
 
