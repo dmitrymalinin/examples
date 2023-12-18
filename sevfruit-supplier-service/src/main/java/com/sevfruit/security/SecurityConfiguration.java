@@ -39,7 +39,9 @@ public class SecurityConfiguration {
 				.formLogin(AbstractHttpConfigurer::disable)
 				.exceptionHandling(configurer -> configurer.authenticationEntryPoint(unauthorizedHandler))
 				.securityMatcher("/**")
-				.authorizeHttpRequests(registry -> registry.anyRequest().authenticated())
+				.authorizeHttpRequests(registry -> registry
+						.requestMatchers("/error").permitAll()
+						.anyRequest().authenticated())
 				.addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
 				.build();
 	}
