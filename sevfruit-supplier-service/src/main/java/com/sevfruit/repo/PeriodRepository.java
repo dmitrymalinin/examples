@@ -13,7 +13,7 @@ public interface PeriodRepository extends JpaRepository<Period, Integer>{//, Cus
 	Optional<Period> findByName(String name);
 	/** Поступление продукции по поставщикам в заданном периоде */
 	@Query("SELECT\n"
-			+ " S AS supplier, P AS product, sum(SP.quantity) AS totalQuantity, sum(PP.value) AS totalValue\n"
+			+ " S AS supplier, P AS product, sum(SP.quantity) AS totalQuantity, sum(PP.value*SP.quantity) AS totalValue\n"
 			+ "FROM\n"
 			+ " ShipmentProduct SP\n"
 			+ " JOIN SP.priceProduct PP\n"
