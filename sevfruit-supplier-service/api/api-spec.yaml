@@ -1,0 +1,826 @@
+---
+openapi: 3.1.0
+info:
+  title: Сервис учёта поставок
+  description: |
+    API сервиса учёта поставок.
+    Используется для внесения информации о поставщиках, продукции, ценах на продукцию на каждый период поставок и поставках продукции.
+    Предусмотрено создание отчёта о поставках продукции поставщиками в заданном периоде.
+    
+    ## Авторизация  
+    Для определения прав доступа к методам API используется авторизация API key. Ключ доступа передаётся в заголовке *Api-Key*.  
+    
+    ## Ошибки  
+    API использует стандартные HTTP коды для сообщения об успешности или не успешности вызова API. В случае неуспеха, теле ответа
+    содержится JSON с информацией об ошибке.
+  version: '1.0'
+  license:
+    name: Unlicense
+    url: https://opensource.org/license/unlicense/
+servers:
+  - url: http://localhost:8080
+    description: Локальный сервер
+security:
+  - apikey: []
+tags:
+- name: Supplier
+  x-displayName: Поставщики
+  description: Операции с поставщиками
+- name: Product
+  x-displayName: Виды продукции
+  description: Операции с видами продукции
+- name: Period
+  x-displayName: Периоды поставок
+  description: Операции с периодами поставок
+- name: Price
+  x-displayName: Прайс листы
+  description: Операции с прайс листами
+- name: Shipment
+  x-displayName: Поставки
+  description: Операции с поставками
+#Модели
+- name: SupplierModel
+  x-displayName: Поставщик
+  description: |
+      <SchemaDefinition schemaRef="#/components/schemas/Supplier" />
+- name: ProductModel
+  x-displayName: Вид продукции
+  description: |
+      <SchemaDefinition schemaRef="#/components/schemas/Product" />
+- name: PeriodModel
+  x-displayName: Период поставок
+  description: |
+      <SchemaDefinition schemaRef="#/components/schemas/Period" />
+- name: PriceModel
+  x-displayName: Прайс лист
+  description: |
+      <SchemaDefinition schemaRef="#/components/schemas/Price" />
+- name: ShipmentModel
+  x-displayName: Поставка
+  description: |
+      <SchemaDefinition schemaRef="#/components/schemas/Shipment" />
+      
+x-tagGroups:
+  - name: Операции
+    tags:
+      - Supplier
+      - Product
+      - Period
+      - Price
+      - Shipment
+  - name: Модели
+    tags:
+      - SupplierModel
+      - ProductModel
+      - PeriodModel
+      - PriceModel
+      - ShipmentModel
+      
+paths:
+  /supplier:
+    get:
+      operationId: supplierGetAll
+      summary: Список всех поставщиков
+      description: Возвращает список всех поставщиков
+      tags:
+      - Supplier
+      responses:
+        200:
+          description: OK
+          content: 
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Supplier"
+              example:
+              - id: 1
+                name: S1
+              - id: 2
+                name: S2
+              - id: 3
+                name: S3
+        401:
+          description: Запрос не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 401
+                error: Unauthorized
+                message: Full authentication is required to access this resource
+                path: /supplier
+        500:
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 500
+                error: Internal Server Error
+                message: could not execute SQL statement
+                path: /supplier
+    post:
+      operationId: supplierAdd
+      summary: Добавить нового поставщика
+      description: Добавляет нового поставщика
+      tags:
+      - Supplier
+      responses:
+        200:
+          description: OK
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Supplier"
+              example:
+                id: 4
+                name: S4
+        401:
+          description: Запрос не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 401
+                error: Unauthorized
+                message: Full authentication is required to access this resource
+                path: /supplier
+        500:
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 500
+                error: Internal Server Error
+                message: could not execute SQL statement
+                path: /supplier
+
+  /product:
+    get:
+      operationId: productGetAll
+      summary: Список всех видов продукции
+      description: Возвращает список всех видов продукции
+      tags:
+      - Product
+      responses:
+        200:
+          description: OK
+          content: 
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+              example:
+              - id: 1
+                name: Яблоки красные
+              - id: 2
+                name: Яблоки жёлтые
+              - id: 3
+                name: Яблоки зелёные
+        401:
+          description: Запрос не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 401
+                error: Unauthorized
+                message: Full authentication is required to access this resource
+                path: /product
+        500:
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 500
+                error: Internal Server Error
+                message: could not execute SQL statement
+                path: /product
+    post:
+      operationId: productAdd
+      summary: Добавить новый вид продукции
+      description: Добавляет новый вид продукции
+      tags:
+      - Product
+      responses:
+        200:
+          description: OK
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+              example:
+                id: 4
+                name: Яблоки белые
+        401:
+          description: Запрос не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 401
+                error: Unauthorized
+                message: Full authentication is required to access this resource
+                path: /product
+        500:
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 500
+                error: Internal Server Error
+                message: could not execute SQL statement
+                path: /product
+
+  /period:
+    get:
+      operationId: periodGetAll
+      summary: Список всех периодов поставок
+      description: Возвращает список всех периодов поставок
+      tags:
+      - Period
+      responses:
+        200:
+          description: OK
+          content: 
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Period"
+              example:
+              - id: 1
+                name: "2020"
+              - id: 2
+                name: "2021"
+              - id: 3
+                name: "2022"
+        401:
+          description: Запрос не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 401
+                error: Unauthorized
+                message: Full authentication is required to access this resource
+                path: /period
+        500:
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 500
+                error: Internal Server Error
+                message: could not execute SQL statement
+                path: /period
+    post:
+      operationId: periodAdd
+      summary: Добавить новый период поставок
+      description: Добавляет новый период поставок
+      tags:
+      - Period
+      responses:
+        200:
+          description: OK
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Period"
+              example:
+                id: 4
+                name: "2023"
+        401:
+          description: Запрос не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 401
+                error: Unauthorized
+                message: Full authentication is required to access this resource
+                path: /period
+        500:
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 500
+                error: Internal Server Error
+                message: could not execute SQL statement
+                path: /period
+                
+  /period/{period_id}/report:
+    get:
+      operationId: periodGetSupplierProductReport
+      summary: Отчёт о поступлении видов продукции
+      description: Возвращает отчёт о поступлении видов продукции по поставщикам с итогами по весу и стоимости
+      parameters:
+        - name: period_id
+          in: path
+          description: ID периода поставок
+          required: true
+          schema:
+            type: integer
+      tags:
+      - Period
+      responses:
+        200:
+          description: OK
+          content: 
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SupplierProductsReport"
+              example:
+              - supplier:
+                  id: 3
+                  name: S3
+                products:
+                - product:
+                    id: 1
+                    name: Яблоки красные
+                  totalQuantity: 2.0
+                  totalValue: 220000.0
+                - product:
+                    id: 4
+                    name: Груши жёлтые
+                  totalQuantity: 3.0
+                  totalValue: 450000.0
+        401:
+          description: Запрос не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 401
+                error: Unauthorized
+                message: Full authentication is required to access this resource
+                path: /period/3/report
+        404:
+          description: Период не найден
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 404
+                error: Not Found
+                message: Период 33 не найден
+                path: /period/33/report
+        500:
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 500
+                error: Internal Server Error
+                message: could not execute SQL statement
+                path: /period/3/report                
+
+  /price:
+    get:
+      tags:
+      - Price
+      operationId: priceGetAll
+      summary: Список всех прайс листов
+      description: Возвращает список всех прайс листов
+      responses:
+        200:
+          description: OK
+          content: 
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Price"
+              example:
+              - id: 3
+                supplier: 
+                  id: 2
+                  name: S2
+                period:
+                  id: 3
+                  name: "2022"
+                products:
+                - id:
+                    price_id: 3
+                    product_id: 1
+                  product:
+                    id: 1
+                    name: Яблоки красные
+                  value: 110000.0
+                    
+                
+        401:
+          description: Запрос не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 401
+                error: Unauthorized
+                message: Full authentication is required to access this resource
+                path: /price
+        500:
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 500
+                error: Internal Server Error
+                message: could not execute SQL statement
+                path: /price
+    post:
+      operationId: priceAdd
+      summary: Добавить новый прайс лист
+      description: Добавляет новый прайс лист
+      tags:
+      - Price
+      responses:
+        200:
+          description: OK
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Price"
+#              example: #TODO
+
+        401:
+          description: Запрос не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 401
+                error: Unauthorized
+                message: Full authentication is required to access this resource
+                path: /price
+        500:
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 500
+                error: Internal Server Error
+                message: could not execute SQL statement
+                path: /price
+
+  /shipment:
+    get:
+      operationId: shipmentGetAll
+      summary: Список всех поставок
+      description: Возвращает список всех поставок
+      tags:
+      - Shipment
+      responses:
+        200:
+          description: OK
+          content: 
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Shipment"
+#              example: #TODO
+        401:
+          description: Запрос не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 401
+                error: Unauthorized
+                message: Full authentication is required to access this resource
+                path: /shipment
+        500:
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 500
+                error: Internal Server Error
+                message: could not execute SQL statement
+                path: /shipment
+    post:
+      operationId: shipmentAdd
+      summary: Добавить новую поставку
+      description: Добавляет новую поставку
+      tags:
+      - Shipment
+      responses:
+        200:
+          description: OK
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Shipment"
+#              example: #TODO
+        401:
+          description: Запрос не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 401
+                error: Unauthorized
+                message: Full authentication is required to access this resource
+                path: /shipment
+        500:
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 500
+                error: Internal Server Error
+                message: could not execute SQL statement
+                path: /shipment
+                
+components:
+  schemas:
+    Supplier:
+      type: object
+      title: Поставщик
+      description: Описание поставщика
+      properties:
+        id:
+          type: integer
+          format: int32
+          description: ID поставщика
+          readOnly: true
+        name:
+          type: string
+          description: Наименование поставщика, уникальное для данного сервиса
+      required:
+      - name
+    Product:
+      type: object
+      title: Вид продукции
+      description: Описание вида продукции
+      properties:
+        id:
+          type: integer
+          format: int32
+          description: ID вида продукции
+          readOnly: true
+        name:
+          type: string
+          description: Наименование вида продукции, уникальное для данного сервиса
+      required:
+      - name
+    Period:
+      type: object
+      title: Период поставок
+      description: Описание периода поставок
+      properties:
+        id:
+          type: integer
+          format: int32
+          description: ID периода поставок
+          readOnly: true
+        name:
+          type: string
+          description: Наименование периода поставок, уникальное для данного сервиса
+      required:
+      - name
+    Price:
+      type: object
+      title: Прайс лист
+      description: Описание прайс листа
+      properties:
+        id:
+          type: integer
+          format: int32
+          description: ID прайс листа
+          readOnly: true
+        supplier:
+          $ref: "#/components/schemas/Supplier"
+        period:
+          $ref: "#/components/schemas/Period"
+        products:
+          type: array
+          items:
+            $ref: "#/components/schemas/PriceProduct"
+      required:
+      - supplier
+      - period
+    PriceProductId:
+      type: object
+      title: ID PriceProduct
+      description: Составной ID
+      properties:
+        price_id:
+          type: integer
+          format: int32
+          description: ID прайс листа
+        product_id:
+          type: integer
+          format: int32
+          description: ID вида продукции    
+      required:
+      - price_id
+      - product_id
+    PriceProduct:
+      type: object
+      title: Позиция в прайс листе
+      description: Описание позиции в прайс листе
+      properties:
+        id:
+          $ref: "#/components/schemas/PriceProductId"
+        product:
+          $ref: "#/components/schemas/Product"
+        value:
+          type: number
+          format: float
+          description: Цена за тонну  
+      required:
+      - id
+      - product
+      - value
+    
+    Shipment:
+      type: object
+      title: Поставка
+      description: Описание поставки
+      properties:
+        id:
+          type: integer
+          format: int32
+          description: ID поставки
+          readOnly: true
+        price:
+          $ref: "#/components/schemas/Price"
+        products:
+          type: array
+          items:
+            $ref: "#/components/schemas/ShipmentProduct"
+      required:
+      - price
+    
+    ShipmentProduct:
+      type: object
+      title: Позиция в поставке
+      description: Описание позиции в поставке
+      properties:
+        id:
+          $ref: "#/components/schemas/ShipmentProductId"
+        priceProduct:
+          $ref: "#/components/schemas/PriceProduct"
+        quantity:
+          type: number
+          format: float
+          description: Количество в тоннах
+      required:
+      - priceProduct
+    
+    ShipmentProductId:
+      type: object
+      title: ID ShipmentProduct
+      description: Составной ID
+      properties:
+        shipment_id:
+          type: integer
+          format: int32
+          description: ID поставки
+        price_id:
+          type: integer
+          format: int32
+          description: ID прайс листа
+        product_id:
+          type: integer
+          format: int32
+          description: ID вида продукции    
+      required:
+      - shipment_id
+      - price_id
+      - product_id
+    
+    SupplierProductsReport:
+      type: object
+      title: Отчёт о поставках видов продукции
+      description: Отчёт о поставках видов продукции с итогами по количеству и стоимости
+      properties:
+        supplier:
+          $ref: "#/components/schemas/Supplier"
+        products:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProductTotal"
+      required:
+      - supplier
+      
+    ProductTotal:
+      type: object
+      title: Вид продукции с итогами по количеству и стоимости
+      description: Вид продукции из отчёта с итогами по количеству и стоимости
+      properties:
+        product:
+          $ref: "#/components/schemas/Product"
+        totalQuantity:
+          type: number
+          format: float
+          description: Общее количество в тоннах
+        totalValue:
+          type: number
+          format: float
+          description: Общая стоимость
+      required:
+      - product
+      - totalQuantity
+      - totalValue
+      
+    ErrorResponse:
+      type: object
+      title: Ошибка
+      description: Описание ошибки
+      properties:
+        timestamp:
+          type: string
+          description: Дата и время
+          readOnly: true
+        status:
+          type: integer
+          description: HTTP код ошибки
+          readOnly: true
+        error:
+          type: string
+          description: Текстовое описание HTTP кода ошибки
+          readOnly: true
+        message:
+          type: string
+          description: Сообщение об ошибке
+          readOnly: true
+        path: 
+          type: string
+          description: Путь запроса
+          readOnly: true
+      required:
+      - timestamp
+      - status
+      - error
+  securitySchemes:
+    apikey:
+      type: apiKey
+      in: header
+      name: Api-Key
+      description: Авторизация с помощью API key
+      
+      

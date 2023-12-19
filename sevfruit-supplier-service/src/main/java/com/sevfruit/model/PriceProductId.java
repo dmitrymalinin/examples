@@ -6,6 +6,11 @@ import java.util.Objects;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
+/**
+ * Составной ID для {@linkplain PriceProduct}
+ * @author dm
+ *
+ */
 @Embeddable
 public class PriceProductId implements Serializable {
 	private static final long serialVersionUID = 1L;

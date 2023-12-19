@@ -25,6 +25,12 @@ ER диаграмма находится в файле [db/db-er.pdf](db/db-er.p
  - *Shipment* - Поставка  
  - *ShipmentProduct* - Позиция в поставке
 
+### API
+
+Спецификация Open API находится в файлах:
+ - [api/api-spec.yaml](api/api-spec.yaml)  
+ - [api/api-spec.html](api/api-spec.html)  
+
 ### Контроллеры 
 
  - *SupplierController* - */supplier* - Операции с поставщиками  
@@ -69,3 +75,5 @@ spring.sql.init.mode=always
 ### Ссылки
 
 [https://dbdiagram.io/d](https://dbdiagram.io/d)  
+[https://spec.openapis.org/oas/latest.html](https://spec.openapis.org/oas/latest.html)  
+[https://redocly.github.io/redoc/](https://redocly.github.io/redoc/)  

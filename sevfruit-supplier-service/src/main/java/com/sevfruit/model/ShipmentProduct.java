@@ -33,7 +33,7 @@ public class ShipmentProduct {
 	@ManyToOne(optional = false)
 	private PriceProduct priceProduct;
 	
-	/** кол-во в тоннах */
+	/** Количество в тоннах */
 	@Column(name = "quantity", nullable = false)
 	private Float quantity;
 

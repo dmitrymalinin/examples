@@ -1,14 +1,14 @@
-#Документирование REST API 
+# Документирование REST API 
 
-##redocly
-###Установка npm  
+## redocly
+### Установка npm  
 
 `sudo apt install npm`  
 
 Увеличить таймаут при необходимости:  
 `sudo npm config set fetch-timeout 600000`  
 
-###Установка redocly
+### Установка redocly
 
 Установить redocly:  
 `sudo npm i -g @redocly/cli@latest`  
@@ -16,7 +16,7 @@
 Проверить:  
 `redocly --version`  
 
-###Сборка документации в HTML
+### Сборка документации в HTML
 
 Проверить корректность документации:  
 `redocly lint --skip-rule=no-server-example.com api_spec.yaml`
@@ -24,7 +24,7 @@
 Собрать HTML:  
 `redocly build-docs api_spec.yaml --output=api_spec.html`
 
-###Ссылки
+### Ссылки
 
 [OpenAPI Specification v3.1.0](https://spec.openapis.org/oas/v3.1.0)  
 [Swagger OpenAPI Specification ](https://swagger.io/specification/)  

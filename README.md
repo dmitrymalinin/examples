@@ -40,6 +40,7 @@ yandex-task
 sevfruit-supplier-service
 --------------------------
 Сервис учёта поставок для Северной Фруктовой Компании
-* проектирование схемы БД PostgreSQL
-* создание БД с помощью Hibernate
+* Проектирование схемы БД PostgreSQL
+* Создание БД с помощью Hibernate
 * REST сервис на Spring (Spring Boot, Spring Data JPA, Spring Security)
+* Документирование REST API (OpenAPI)  
