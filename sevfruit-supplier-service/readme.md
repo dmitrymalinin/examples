@@ -29,7 +29,7 @@ ER диаграмма находится в файле [db/db-er.pdf](db/db-er.p
 
 Спецификация Open API находится в файлах:
  - [api/api-spec.yaml](api/api-spec.yaml)  
- - [api/api-spec.html](api/api-spec.html)  
+ - [api-spec.html](https://dmitrymalinin.github.io/sevfruit-supplier-service/api/api-spec.html)  
 
 ### Контроллеры 
 
