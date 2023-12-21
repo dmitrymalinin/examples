@@ -1,10 +1,16 @@
 package com.sevfruit.service;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +28,11 @@ import com.sevfruit.repo.ProductRepository;
 @RestController
 @RequestMapping(path = "/product")
 public class ProductController {
+	private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
+	
+	@Autowired
+	private MessageSource msgSrc;
+	
 	@Autowired
 	private ProductRepository productRepository;
 	
@@ -34,6 +45,27 @@ public class ProductController {
 	public List<Product> getAll()
 	{
 		return productRepository.findAll();
+	}
+	
+	/**
+	 * Заданный вид продукции<br/>
+	 * {@code  curl -H "Accept-Language: ru" -H "Api-Key: 12345" http://localhost:8080/product/1 | jq}
+	 * @param product_id
+	 * @param locale
+	 * @return
+	 */
+	@GetMapping("{product_id}")
+	public Product get(@PathVariable int product_id, Locale locale)
+	{
+		final Optional<Product> product = productRepository.findById(product_id);
+		if (product.isPresent())
+		{
+			return product.get();			
+		} else
+		{
+			logger.error("ProductController.get(): product {} not found", product_id);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, msgSrc.getMessage(ServiceMessages.ERROR_PRODUCT_NOT_FOUND, new Integer[]{product_id}, locale));
+		}
 	}
 	
 	/**
