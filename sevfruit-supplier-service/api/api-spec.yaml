@@ -340,6 +340,67 @@ paths:
                 error: Internal Server Error
                 message: could not execute SQL statement
                 path: /period
+
+  /period/{period_id}:
+    get:
+      operationId: periodGet
+      summary: Заданный период поставок
+      description: Возвращает заданный период поставок
+      tags:
+      - Period
+      parameters:
+        - name: period_id
+          in: path
+          description: ID периода
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: OK
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Period"
+              example:
+                id: 3
+                name: "2022"
+        401:
+          description: Запрос не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 401
+                error: Unauthorized
+                message: Full authentication is required to access this resource
+                path: /period/3
+        404:
+          description: Период не найден
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 404
+                error: Not Found
+                message: Период 33 не найден
+                path: /period/33
+        500:
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 500
+                error: Internal Server Error
+                message: could not execute SQL statement
+                path: /period/3
                 
   /period/{period_id}/report:
     get:

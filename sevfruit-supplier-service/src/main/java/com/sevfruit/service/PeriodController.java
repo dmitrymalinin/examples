@@ -53,6 +53,27 @@ public class PeriodController {
 	}
 	
 	/**
+	 * Заданный период <br/>
+	 * {@code  curl -H "Accept-Language: ru" -H "Api-Key: 12345" http://localhost:8080/period/3 | jq}
+	 * @param period_id
+	 * @param locale
+	 * @return
+	 */
+	@GetMapping("{period_id}")
+	public Period get(@PathVariable int period_id, Locale locale)
+	{
+		final Optional<Period> period = periodRepository.findById(period_id);
+		if (period.isPresent())
+		{
+			return period.get();
+		} else
+		{
+			logger.error("PeriodController.get(): period {} not found", period_id);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, msgSrc.getMessage(ServiceMessages.ERROR_PERIOD_NOT_FOUND, new Integer[]{period_id}, locale));
+		}
+	}
+	
+	/**
 	 * Добавить новый период<br/>
 	 * {@code curl -w '\n' -D - -X POST -H "Api-Key: 12345" -H "Content-type: application/json" -d '{"name": "2024"}' http://localhost:8080/period}
 	 * @param period
@@ -81,13 +102,9 @@ public class PeriodController {
 	@GetMapping("{period_id}/report")
 	public List<SupplierProductsReport> getSupplierProductReport(@PathVariable int period_id, Locale locale)
 	{
-		final Optional<Period> period = periodRepository.findById(period_id);
-		if (!period.isPresent())
-		{
-			logger.error("getSupplierProductReport(): period {} not found", period_id);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, msgSrc.getMessage(ServiceMessages.ERROR_PERIOD_NOT_FOUND, new Integer[]{period_id}, locale));
-		}
-		final List<SupplierProductReportLine> reportLines = periodRepository.getSupplierProductReport(period.get());
+		final Period period = get(period_id, locale);
+		
+		final List<SupplierProductReportLine> reportLines = periodRepository.getSupplierProductReport(period);
 		
 		// Сгруппировать информацию по каждому поставщику
 		final List<SupplierProductsReport> res = new LinkedList<>();
