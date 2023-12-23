@@ -631,8 +631,6 @@ paths:
                     id: 1
                     name: Яблоки красные
                   value: 110000.0
-                    
-                
         401:
           description: Запрос не авторизован
           content:
@@ -696,6 +694,101 @@ paths:
                 error: Internal Server Error
                 message: could not execute SQL statement
                 path: /price
+
+  /price/{price_id}:
+    get:
+      operationId: priceGet
+      summary: Заданный прайс лист
+      description: Возвращает заданный прайс лист
+      tags:
+      - Price
+      parameters:
+        - name: price_id
+          in: path
+          description: ID прайс листа
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: OK
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Price"
+              example:
+                id: 1
+                supplier: 
+                  id: 1
+                  name: S1
+                period:
+                  id: 3
+                  name: "2022"
+                products:
+                - id:
+                    price_id: 1
+                    product_id: 1
+                  product:
+                    id: 1
+                    name: Яблоки красные
+                  value: 100000.0
+                - id:
+                    price_id: 1
+                    product_id: 2
+                  product:
+                    id: 2
+                    name: Яблоки жёлтые
+                  value: 125000.0
+                - id:
+                    price_id: 1
+                    product_id: 4
+                  product:
+                    id: 4
+                    name: Груши жёлтые
+                  value: 150000.0
+                - id:
+                    price_id: 1
+                    product_id: 5
+                  product:
+                    id: 5
+                    name: Груши жёлтые
+                  value: 175000.0
+        401:
+          description: Запрос не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 401
+                error: Unauthorized
+                message: Full authentication is required to access this resource
+                path: /price/1
+        404:
+          description: Прайс лист не найден
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 404
+                error: Not Found
+                message: Прайс лист 11 не найден
+                path: /price/11
+        500:
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 500
+                error: Internal Server Error
+                message: could not execute SQL statement
+                path: /price/1
 
   /shipment:
     get:
