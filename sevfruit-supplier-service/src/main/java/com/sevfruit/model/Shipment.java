@@ -57,15 +57,13 @@ public class Shipment {
 		this.id = id;
 	}
 	
-	public Price getPrice() {
-		return price;
+	public Integer getPrice_id() {
+		return price!=null?price.getId():null;
 	}
 
 	public void setPrice(Price price) {
 		this.price = price;
 	}
-
-	
 
 	public List<ShipmentProduct> getProducts() {
 		return products;

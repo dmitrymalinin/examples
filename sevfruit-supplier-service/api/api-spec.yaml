@@ -751,7 +751,7 @@ paths:
                     product_id: 5
                   product:
                     id: 5
-                    name: Груши жёлтые
+                    name: Груши зелёные
                   value: 175000.0
         401:
           description: Запрос не авторизован
@@ -869,6 +869,107 @@ paths:
                 error: Internal Server Error
                 message: could not execute SQL statement
                 path: /shipment
+
+  /shipment/{shipment_id}:
+    get:
+      operationId: shipmentGet
+      summary: Заданная поставка
+      description: Возвращает заданную поставку
+      tags:
+      - Shipment
+      parameters:
+        - name: shipment_id
+          in: path
+          description: ID поставки
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: OK
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Shipment"
+              example:
+                id: 1
+                price_id: 1                
+                products:
+                - id:
+                    shipment_id: 1
+                    price_id: 1
+                    product_id: 1
+                  priceProduct:
+                    id:
+                      price_id: 1
+                      product_id: 1
+                    product:
+                      id: 1
+                      name: Яблоки красные
+                    value: 100000.0
+                  quantity: 1.0
+                - id:
+                    shipment_id: 1
+                    price_id: 1
+                    product_id: 2
+                  priceProduct:
+                    id:
+                      price_id: 1
+                      product_id: 2
+                    product:
+                      id: 2
+                      name: Яблоки жёлтые
+                    value: 125000.0
+                  quantity: 1.5
+                - id:
+                    shipment_id: 1
+                    price_id: 1
+                    product_id: 5
+                  priceProduct:
+                    id:
+                      price_id: 1
+                      product_id: 5
+                    product:
+                      id: 5
+                      name: Груши зелёные
+                    value: 175000.0
+                  quantity: 1.3
+        401:
+          description: Запрос не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 401
+                error: Unauthorized
+                message: Full authentication is required to access this resource
+                path: /shipment/1
+        404:
+          description: Поставка не найдена
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 404
+                error: Not Found
+                message: Поставка 11 не найдена
+                path: /shipment/11
+        500:
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                timestamp: 2023-12-15T14:42:03.723+00:00
+                status: 500
+                error: Internal Server Error
+                message: could not execute SQL statement
+                path: /shipment/1
                 
 components:
   schemas:
@@ -982,14 +1083,16 @@ components:
           format: int32
           description: ID поставки
           readOnly: true
-        price:
-          $ref: "#/components/schemas/Price"
+        price_id:
+          type: integer
+          format: int32
+          description: ID прайс листа
         products:
           type: array
           items:
             $ref: "#/components/schemas/ShipmentProduct"
       required:
-      - price
+      - price_id
     
     ShipmentProduct:
       type: object

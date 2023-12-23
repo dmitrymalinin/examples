@@ -10,4 +10,5 @@ public interface ServiceMessages {
 	String ERROR_PRODUCT_NOT_FOUND = "error.product_not_found";
 	String ERROR_SUPPLIER_NOT_FOUND = "error.supplier_not_found";
 	String ERROR_PRICE_NOT_FOUND = "error.price_not_found";
+	String ERROR_SHIPMENT_NOT_FOUND = "error.shipment_not_found";
 }
