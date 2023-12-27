@@ -130,16 +130,23 @@ paths:
       description: Добавляет нового поставщика
       tags:
       - Supplier
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Supplier"
+            example:
+              name: S4
       responses:
-        "200":
+        "201":
           description: OK
-          content: 
-            application/json:
+          headers:
+            Location:
+              description: URL нового поставщика
               schema:
-                $ref: "#/components/schemas/Supplier"
-              example:
-                id: 4
-                name: S4
+                type: string
+                format: uri
+              example: http://localhost:8080/supplier/4
         "401":
           description: Запрос не авторизован
           content:
@@ -291,7 +298,7 @@ paths:
           description: OK
           headers:
             Location:
-              description: URL добавленного вида продукции
+              description: URL нового вида продукции
               schema:
                 type: string
                 format: uri
