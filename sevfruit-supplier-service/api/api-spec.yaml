@@ -442,16 +442,23 @@ paths:
       description: Добавляет новый период поставок
       tags:
       - Period
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Period"
+            example:
+              name: "2023"
       responses:
-        "200":
+        "201":
           description: OK
-          content: 
-            application/json:
+          headers:
+            Location:
+              description: URL нового периода поставок
               schema:
-                $ref: "#/components/schemas/Period"
-              example:
-                id: 4
-                name: "2023"
+                type: string
+                format: uri
+              example: http://localhost:8080/period/4
         "401":
           description: Запрос не авторизован
           content:

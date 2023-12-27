@@ -1,5 +1,6 @@
 package com.sevfruit.service;
 
+import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.sevfruit.model.Period;
 import com.sevfruit.model.ProductTotal;
@@ -80,11 +83,16 @@ public class PeriodController {
 	 * @return
 	 */
 	@PostMapping("")
-	public Period add(@RequestBody Period period)
+	public ResponseEntity<Void> add(@RequestBody Period period)
 	{
 		try
 		{
-			return periodRepository.save(period);
+			final Period newPeriod = periodRepository.save(period);
+			
+			final URI location = ServletUriComponentsBuilder.fromCurrentRequestUri()
+					.pathSegment("{period_id}").buildAndExpand(newPeriod.getId()).toUri();
+			
+			return ResponseEntity.created(location).build();
 		} catch (Exception e)
 		{
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
