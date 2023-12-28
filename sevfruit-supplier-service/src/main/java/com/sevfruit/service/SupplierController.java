@@ -78,7 +78,7 @@ public class SupplierController {
 	 * @return
 	 */
 	@PostMapping("")
-	public ResponseEntity<Void> add(@RequestBody Supplier supplier)
+	public ResponseEntity<Supplier> add(@RequestBody Supplier supplier)
 	{
 		try
 		{
@@ -87,7 +87,7 @@ public class SupplierController {
 			final URI location = ServletUriComponentsBuilder.fromCurrentRequestUri()
 					.pathSegment("{supplier_id}").buildAndExpand(newSupplier.getId()).toUri();
 			
-			return ResponseEntity.created(location).build();
+			return ResponseEntity.created(location).body(newSupplier);
 		} catch (Exception e)
 		{
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());

@@ -77,13 +77,13 @@ public class PeriodController {
 	}
 	
 	/**
-	 * Добавить новый период<br/>
+	 * Добавить новый период поставок<br/>
 	 * {@code curl -w '\n' -D - -X POST -H "Api-Key: 12345" -H "Content-type: application/json" -d '{"name": "2024"}' http://localhost:8080/period}
 	 * @param period
 	 * @return
 	 */
 	@PostMapping("")
-	public ResponseEntity<Void> add(@RequestBody Period period)
+	public ResponseEntity<Period> add(@RequestBody Period period)
 	{
 		try
 		{
@@ -92,7 +92,7 @@ public class PeriodController {
 			final URI location = ServletUriComponentsBuilder.fromCurrentRequestUri()
 					.pathSegment("{period_id}").buildAndExpand(newPeriod.getId()).toUri();
 			
-			return ResponseEntity.created(location).build();
+			return ResponseEntity.created(location).body(newPeriod);
 		} catch (Exception e)
 		{
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());

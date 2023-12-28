@@ -78,7 +78,7 @@ public class ProductController {
 	 * @return
 	 */
 	@PostMapping("")
-	public ResponseEntity<Void> add(@RequestBody Product product)
+	public ResponseEntity<Product> add(@RequestBody Product product)
 	{
 		try
 		{
@@ -87,7 +87,7 @@ public class ProductController {
 			final URI location = ServletUriComponentsBuilder.fromCurrentRequestUri()
 					.pathSegment("{product_id}").buildAndExpand(newProduct.getId()).toUri();
 			
-			return ResponseEntity.created(location).build();
+			return ResponseEntity.created(location).body(newProduct);
 		} catch (Exception e)
 		{
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
