@@ -703,14 +703,47 @@ paths:
       description: Добавляет новый прайс лист
       tags:
       - Price
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewPrice"
+            example:
+              supplier_id: 3
+              period_id: 4
+              products:
+              - product_id: 1
+                value: 111000.0
       responses:
         "200":
           description: OK
+          headers:
+            Location:
+              description: URL нового прайс листа
+              schema:
+                type: string
+                format: uri
+              example: http://localhost:8080/price/5
           content: 
             application/json:
               schema:
                 $ref: "#/components/schemas/Price"
-#              example: #TODO
+              example:
+                id: 5
+                supplier: 
+                  id: 3
+                  name: S3
+                period:
+                  id: 4
+                  name: "2023"
+                products:
+                - id:
+                    price_id: 5
+                    product_id: 1
+                  product:
+                    id: 1
+                    name: Яблоки красные
+                  value: 111000.0
 
         "401":
           description: Запрос не авторизован
@@ -1114,6 +1147,36 @@ components:
       - id
       - product
       - value
+      
+    NewPrice:
+      type: object
+      title: Новый прайс лист
+      description: Описание нового прайс листа
+      properties:
+        supplier_id:
+          type: integer
+          format: int32
+          description: ID поставщика
+        period_id: 
+          type: integer
+          format: int32
+          description: ID периода
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              product_id:
+                type: integer
+                format: int32
+                description: ID вида продукции
+              value:
+                type: number
+                format: float
+                description: Цена за тонну                
+      required:
+      - supplier_id
+      - period_id
     
     Shipment:
       type: object

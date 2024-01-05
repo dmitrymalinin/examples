@@ -9,8 +9,9 @@ import org.springframework.data.jpa.repository.Query;
 import com.sevfruit.model.Period;
 import com.sevfruit.model.SupplierProductReportLine;
 
-public interface PeriodRepository extends JpaRepository<Period, Integer>{//, CustomizedSave<Period> {
+public interface PeriodRepository extends JpaRepository<Period, Integer>{
 	Optional<Period> findByName(String name);
+	
 	/** Поступление продукции по поставщикам в заданном периоде */
 	@Query("SELECT\n"
 			+ " S AS supplier, P AS product, sum(SP.quantity) AS totalQuantity, sum(PP.value*SP.quantity) AS totalValue\n"

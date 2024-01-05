@@ -32,7 +32,6 @@ import com.sevfruit.repo.ProductRepository;
 import com.sevfruit.repo.ShipmentProductRepository;
 import com.sevfruit.repo.ShipmentRepository;
 import com.sevfruit.repo.SupplierRepository;
-import com.sevfruit.security.ApiKeyAuthFilter;
 
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class, UserDetailsServiceAutoConfiguration.class})
 @EnableJpaRepositories("com.sevfruit.repo")

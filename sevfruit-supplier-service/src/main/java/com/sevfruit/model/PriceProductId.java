@@ -63,7 +63,12 @@ public class PriceProductId implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		PriceProductId other = (PriceProductId) obj;
-		return Objects.equals(price_id, other.price_id) && Objects.equals(product_id, other.product_id);
+		return price_id == other.price_id && product_id == other.product_id;
+	}
+
+	@Override
+	public String toString() {
+		return "PriceProductId [price_id=" + price_id + ", product_id=" + product_id + "]";
 	}
 	
 	
