@@ -15,6 +15,7 @@ import jakarta.persistence.NamedAttributeNode;
 import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.NamedSubgraph;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
@@ -58,6 +59,7 @@ public class Price {
 
 	/** Список продукции с ценами */
 	@OneToMany(mappedBy = "price", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@OrderBy("id")
 	private List<PriceProduct> products;
 
 	public Price() {

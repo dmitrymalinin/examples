@@ -10,7 +10,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
+import jakarta.persistence.NamedSubgraph;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
@@ -19,6 +23,30 @@ import jakarta.persistence.UniqueConstraint;
  * @author dm
  *
  */
+@NamedEntityGraph(
+		name = "shipment-entity-graph",		
+		attributeNodes = {
+				@NamedAttributeNode("price"),
+				@NamedAttributeNode(value = "products", subgraph = "products-subgraph")
+		},
+		subgraphs = {
+				@NamedSubgraph(
+						name = "products-subgraph", 
+						attributeNodes = { 
+								@NamedAttributeNode(value = "priceProduct", subgraph = "priceProduct-subgraph"),
+								@NamedAttributeNode("quantity")
+						}
+				),
+				@NamedSubgraph(
+						name = "priceProduct-subgraph", 
+						attributeNodes = { 
+								@NamedAttributeNode("product"),
+								@NamedAttributeNode("value")
+						}
+				)
+		}
+)
+
 @Entity
 @Table(name = "SHIPMENT", uniqueConstraints = {@UniqueConstraint(columnNames = {"id", "price_id"})})
 public class Shipment {
@@ -33,6 +61,7 @@ public class Shipment {
 	
 	/** Список продукции в поставке */
 	@OneToMany(mappedBy = "shipment", fetch = FetchType.LAZY)
+	@OrderBy("id")
 	private List<ShipmentProduct> products;
 	
 	public Shipment() {

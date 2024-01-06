@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +35,8 @@ import com.sevfruit.repo.ShipmentRepository;
 public class ShipmentController {
 	private static final Logger logger = LoggerFactory.getLogger(ShipmentController.class);
 	
+	private static final Sort sortById = Sort.by("id");
+	
 	@Autowired
 	private MessageSource msgSrc;
 
@@ -51,7 +54,7 @@ public class ShipmentController {
 	@GetMapping("")
 	public List<Shipment> getAll()
 	{
-		return shipmentRepository.findAll();
+		return shipmentRepository.findAll(sortById);
 	}
 	
 	/**
