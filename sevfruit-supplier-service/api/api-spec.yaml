@@ -715,7 +715,7 @@ paths:
               - product_id: 1
                 value: 111000.0
       responses:
-        "200":
+        "201":
           description: OK
           headers:
             Location:
