@@ -2,6 +2,13 @@ package com.sevfruit.model;
 
 import java.util.List;
 
+import org.springframework.lang.NonNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -49,6 +56,7 @@ import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "SHIPMENT", uniqueConstraints = {@UniqueConstraint(columnNames = {"id", "price_id"})})
+@JsonPropertyOrder({"id", "price_id", "products"})
 public class Shipment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -68,12 +76,7 @@ public class Shipment {
 		super();
 	}
 
-	public Shipment(Integer id) {
-		super();
-		this.id = id;
-	}
-
-	public Shipment(Price price) {
+	public Shipment(@NonNull Price price) {
 		super();
 		this.price = price;
 	}
@@ -86,14 +89,21 @@ public class Shipment {
 		this.id = id;
 	}
 	
-	public Integer getPrice_id() {
-		return price!=null?price.getId():null;
+	@JsonIgnore
+	public Price getPrice() {
+		return price;
 	}
 
+	@JsonSetter("price_id")
 	public void setPrice(Price price) {
 		this.price = price;
 	}
 
+	@JsonProperty
+	public Integer getPrice_id() {
+		return price!=null?price.getId():null;
+	}
+	
 	public List<ShipmentProduct> getProducts() {
 		return products;
 	}
@@ -104,7 +114,10 @@ public class Shipment {
 
 	@Override
 	public String toString() {
-		return "Shipment [id=" + id + ", price_id=" + (price != null?price.getId():null) + "]";
+		return "Shipment [id=" + id
+				+ ", price_id=" + (price != null?price.getId():null)
+				+ ", products=" + products
+				+ "]";
 	}
 	
 }

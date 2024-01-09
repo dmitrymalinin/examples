@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
 
@@ -37,7 +36,6 @@ import com.sevfruit.repo.SupplierRepository;
 @EnableJpaRepositories("com.sevfruit.repo")
 @EntityScan("com.sevfruit.model")
 @ComponentScan("com.sevfruit.security")
-@EnableTransactionManagement
 public class SupplierServiceApplication {
 	private static final Logger logger = LoggerFactory.getLogger(SupplierServiceApplication.class);
 	

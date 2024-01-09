@@ -27,6 +27,10 @@ public class Supplier {
 		super();
 	}
 
+	/**
+	 * ctor для десериализации
+	 * @param id
+	 */
 	public Supplier(Integer id) {
 		super();
 		this.id = id;

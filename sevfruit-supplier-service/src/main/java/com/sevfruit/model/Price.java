@@ -2,6 +2,10 @@ package com.sevfruit.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -43,6 +47,7 @@ import jakarta.persistence.UniqueConstraint;
 )
 @Entity
 @Table(name = "PRICE", uniqueConstraints = {@UniqueConstraint(columnNames = {"supplier_id", "period_id"})})
+@JsonPropertyOrder({"id", "supplier", "period", "products"})
 public class Price {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -71,7 +76,12 @@ public class Price {
 		this.supplier = supplier;
 		this.period = period;
 	}
-	
+		
+	public Price(Integer id) {
+		super();
+		this.id = id;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -80,30 +90,26 @@ public class Price {
 		this.id = id;
 	}
 
+	@JsonProperty("supplier")
 	public Supplier getSupplier() {
 		return supplier;
 	}
 
+	@JsonSetter("supplier_id")
 	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
 	}
 	
-	public void setSupplier_id(int supplier_id) {
-		this.supplier = new Supplier(supplier_id);
-	}
-
+	@JsonProperty("period")
 	public Period getPeriod() {
 		return period;
 	}
 
+	@JsonSetter("period_id")
 	public void setPeriod(Period period) {
 		this.period = period;
 	}
 	
-	public void setPeriod_id(int period_id) {
-		this.period = new Period(period_id);
-	}
-
 	public List<PriceProduct> getProducts() {
 		return products;
 	}

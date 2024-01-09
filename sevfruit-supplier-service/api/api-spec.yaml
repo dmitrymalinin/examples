@@ -881,7 +881,65 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Shipment"
-#              example: #TODO
+              example:
+              - id: 1
+                price_id: 1
+                products:
+                - id: 
+                    shipment_id: 1
+                    price_id: 1
+                    product_id: 1
+                  priceProduct:
+                    id:
+                      price_id: 1
+                      product_id: 1
+                    product:
+                      id: 1
+                      name: "Яблоки красные"
+                    value: 100000.0
+                  quantity: 1.0
+                - id: 
+                    shipment_id: 1
+                    price_id: 1
+                    product_id: 2
+                  priceProduct:
+                    id:
+                      price_id: 1
+                      product_id: 2
+                    product:
+                      id: 2
+                      name: "Яблоки жёлтые"
+                    value: 125000.0
+                  quantity: 1.5
+              - id: 2
+                price_id: 1
+                products:
+                - id: 
+                    shipment_id: 2
+                    price_id: 1
+                    product_id: 4
+                  priceProduct:
+                    id:
+                      price_id: 1
+                      product_id: 4
+                    product:
+                      id: 4
+                      name: "Груши жёлтые"
+                    value: 150000.0
+                  quantity: 2.0
+                - id: 
+                    shipment_id: 2
+                    price_id: 1
+                    product_id: 5
+                  priceProduct:
+                    id:
+                      price_id: 1
+                      product_id: 5
+                    product:
+                      id: 5
+                      name: "Груши зелёные"
+                    value: 175000.0
+                  quantity: 2.0
         "401":
           description: Запрос не авторизован
           content:
@@ -912,14 +970,64 @@ paths:
       description: Добавляет новую поставку
       tags:
       - Shipment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewShipment"
+            example:
+              price_id: 3
+              products:
+              - priceProduct:
+                  product_id: 4
+                quantity: 2.0
+              - priceProduct:
+                  product_id: 1
+                quantity: 12.0              
       responses:
-        "200":
+        "201":
           description: OK
+          headers:
+            Location:
+              description: URL новой поставки
+              schema:
+                type: string
+                format: uri
+              example: http://localhost:8080/shipment/10
           content: 
             application/json:
               schema:
                 $ref: "#/components/schemas/Shipment"
-#              example: #TODO
+              example:
+                id: 10
+                price_id: 3
+                products:
+                - id: 
+                    shipment_id: 10
+                    price_id: 3
+                    product_id: 4
+                  priceProduct:
+                    id:
+                      price_id: 3
+                      product_id: 4
+                    product:
+                      id: 4
+                      name: "Груши жёлтые"
+                    value: 160000.0
+                  quantity: 2.0
+                - id: 
+                    shipment_id: 10
+                    price_id: 3
+                    product_id: 1
+                  priceProduct:
+                    id:
+                      price_id: 3
+                      product_id: 1
+                    product:
+                      id: 1
+                      name: "Яблоки красные"
+                    value: 110000.0
+                  quantity: 12.0                  
         "401":
           description: Запрос не авторизован
           content:
@@ -1173,7 +1281,10 @@ components:
               value:
                 type: number
                 format: float
-                description: Цена за тонну                
+                description: Цена за тонну
+            required:
+            - product_id
+            - value
       required:
       - supplier_id
       - period_id
@@ -1214,6 +1325,7 @@ components:
           description: Количество в тоннах
       required:
       - priceProduct
+      - quantity
     
     ShipmentProductId:
       type: object
@@ -1236,6 +1348,40 @@ components:
       - shipment_id
       - price_id
       - product_id
+    
+    NewShipment:
+      type: object
+      title: Новая поставка
+      description: Описание новой поставки
+      properties:
+        price_id:
+          type: integer
+          format: int32
+          description: ID прайс листа
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              priceProduct:
+                type: object
+                properties:
+                  product_id:
+                    type: integer
+                    format: int32
+                    description: ID вида продукции
+                required:
+                - product_id
+              quantity:
+                type: number
+                format: float
+                description: Количество в тоннах
+            required:
+            - priceProduct
+            - quantity
+      required:
+      - price_id
+
     
     SupplierProductsReport:
       type: object

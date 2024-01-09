@@ -2,6 +2,10 @@ package com.sevfruit.model;
 
 import org.springframework.lang.NonNull;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -17,6 +21,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "PRICE_PRODUCT")
+@JsonPropertyOrder({"id", "product", "value"})
 public class PriceProduct {
 	@EmbeddedId
 	private PriceProductId id = new PriceProductId();
@@ -39,17 +44,6 @@ public class PriceProduct {
 		super();
 	}
 	
-	public PriceProduct(int price_id, int product_id) {
-		super();
-		this.id = new PriceProductId(price_id, product_id);
-	}
-	
-	public PriceProduct(int price_id, int product_id, @NonNull Float value) {
-		super();
-		this.id = new PriceProductId(price_id, product_id);
-		this.value = value;
-	}
-
 	public PriceProduct(@NonNull Price price, @NonNull Product product, @NonNull Float value) {
 		super();
 		this.price = price;
@@ -69,18 +63,16 @@ public class PriceProduct {
 		this.price = price;
 	}
 
+	@JsonProperty("product")
 	public Product getProduct() {
 		return product;
 	}
 
+	@JsonSetter("product_id")
 	public void setProduct(Product product) {
 		this.product = product;
 	}
 	
-	public void setProduct_id(int product_id) {
-		this.product = new Product(product_id);
-	}
-
 	public Float getValue() {
 		return value;
 	}

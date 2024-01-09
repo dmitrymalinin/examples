@@ -32,6 +32,10 @@ public class Product {
 		this.name = name;
 	}
 	
+	/**
+	 * ctor для десериализации
+	 * @param id
+	 */
 	public Product(Integer id) {
 		super();
 		this.id = id;

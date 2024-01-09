@@ -2,6 +2,8 @@ package com.sevfruit.model;
 
 import org.springframework.lang.NonNull;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -17,6 +19,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name = "SHIPMENT_PRODUCT")
+@JsonPropertyOrder({"id", "priceProduct", "quantity"})
 public class ShipmentProduct {
 	@EmbeddedId
 	private ShipmentProductId id;
@@ -44,6 +47,7 @@ public class ShipmentProduct {
 	public ShipmentProduct(@NonNull Shipment shipment, @NonNull PriceProduct priceProduct, @NonNull Float quantity) {
 		super();
 		this.id = new ShipmentProductId(shipment.getId(), priceProduct.getId().getPrice_id(), priceProduct.getId().getProduct_id());
+		this.shipment = shipment;
 		this.priceProduct = priceProduct;
 		this.quantity = quantity;
 	}
@@ -55,6 +59,10 @@ public class ShipmentProduct {
 
 	public void setId(ShipmentProductId id) {
 		this.id = id;
+	}
+	
+	public void setShipment(Shipment shipment) {
+		this.shipment = shipment;
 	}
 
 	public PriceProduct getPriceProduct() {
@@ -71,6 +79,14 @@ public class ShipmentProduct {
 
 	public void setQuantity(Float quantity) {
 		this.quantity = quantity;
+	}
+
+	@Override
+	public String toString() {
+		return "ShipmentProduct [id=" + id
+				+ ", shipment_id=" + (shipment!=null?shipment.getId():null)
+				+ ", priceProduct=" + priceProduct
+				+ ", quantity=" + quantity + "]";
 	}
 	
 	

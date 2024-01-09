@@ -33,7 +33,7 @@ public class PriceSaveImpl implements PriceSave<Price> {
 				// Merge Product into context, refresh and set managed entity to PriceProduct
 				final Product managedProduct = productEm.merge(pp.getProduct());
 				productEm.refresh(managedProduct);
-				pp.setProduct(managedProduct);				
+				pp.setProduct(managedProduct);
 			});
 		}
 		logger.trace("PriceSaveImpl.save(): updated price: {}", price);

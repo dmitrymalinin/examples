@@ -27,6 +27,10 @@ public class Period {
 		super();
 	}
 
+	/**
+	 * ctor для десериализации
+	 * @param id
+	 */
 	public Period(Integer id) {
 		super();
 		this.id = id;

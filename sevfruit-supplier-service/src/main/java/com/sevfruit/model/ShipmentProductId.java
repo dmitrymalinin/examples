@@ -78,6 +78,12 @@ public class ShipmentProductId implements Serializable {
 		ShipmentProductId other = (ShipmentProductId) obj;
 		return price_id == other.price_id && product_id == other.product_id && shipment_id == other.shipment_id;
 	}
+
+	@Override
+	public String toString() {
+		return "ShipmentProductId [shipment_id=" + shipment_id + ", price_id=" + price_id + ", product_id=" + product_id
+				+ "]";
+	}
 	
 	
 }
