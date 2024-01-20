@@ -1,5 +1,7 @@
 package com.sevfruit.model;
 
+import static com.sevfruit.service.SupplierServiceApplication.DB_SCHEMA_NAME;
+
 import java.util.List;
 
 import org.springframework.lang.NonNull;
@@ -55,7 +57,7 @@ import jakarta.persistence.UniqueConstraint;
 )
 
 @Entity
-@Table(name = "SHIPMENT", uniqueConstraints = {@UniqueConstraint(columnNames = {"id", "price_id"})})
+@Table(name = "SHIPMENT", schema = DB_SCHEMA_NAME, uniqueConstraints = {@UniqueConstraint(columnNames = {"id", "price_id"})})
 @JsonPropertyOrder({"id", "price_id", "products"})
 public class Shipment {
 	@Id

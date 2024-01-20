@@ -1,5 +1,7 @@
 package com.sevfruit.model;
 
+import static com.sevfruit.service.SupplierServiceApplication.DB_SCHEMA_NAME;
+
 import org.springframework.lang.NonNull;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -18,7 +20,7 @@ import jakarta.persistence.Table;
  *
  */
 @Entity
-@Table(name = "SHIPMENT_PRODUCT")
+@Table(name = "SHIPMENT_PRODUCT", schema = DB_SCHEMA_NAME)
 @JsonPropertyOrder({"id", "priceProduct", "quantity"})
 public class ShipmentProduct {
 	@EmbeddedId

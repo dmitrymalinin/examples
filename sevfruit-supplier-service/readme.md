@@ -42,28 +42,37 @@ ER диаграмма находится в файле [db/db-er.pdf](db/db-er.p
  
 ### Запуск сервиса и настройка
 
-```
-java -jar supplier-service.jar
-```
-По умолчанию при каждом запуске сервиса таблицы БД создаются заново в схеме *sevfruit*.  
-
-Настроечные параметры:  
+Настроечные параметры в *application.properties*:  
 
 ```
 spring.datasource.url=jdbc:postgresql://localhost:5432/training
 spring.datasource.username=sevfruituser
 spring.datasource.password=password
-spring.jpa.properties.hibernate.default_schema=sevfruit
+
+spring.jpa.open-in-view=true
+spring.jpa.properties.jakarta.persistence.create-database-schemas=true
+spring.jpa.properties.hibernate.hbm2ddl.halt_on_error=true
+
 server.error.include-message=always
-app.db.init.enabled=false
+
 app.security.api-key=12345
-spring.jpa.hibernate.ddl-auto=create
-spring.sql.init.mode=always
 ```
 Пользователь БД должен иметь разрещение *CREATE* для заданной в URL БД: `GRANT CREATE ON DATABASE training TO sevfruituser;`  
 
-За заполнение начальными данными отвечает параметр *app.db.init.enabled*  
-Запуск сервиса с заполнением БД начальными данными: `java -Dapp.db.init.enabled=true -jar supplier-service.jar`  
+За заполнение начальными данными отвечает параметр *app.db.init.enabled*, за создание БД - *spring.jpa.properties.jakarta.persistence.schema-generation.database.action*  
+Запуск сервиса с созданием БД и заполнением начальными данными: 
+
+```
+java -Dapp.db.init.enabled=true -Dspring.jpa.properties.jakarta.persistence.schema-generation.database.action=create -jar supplier-service.jar
+```
+Таблицы БД создаются в схеме *sevfruit*.
+
+При последующих запусках создавать таблицы БД не требуется:  
+
+```
+java -jar supplier-service.jar
+```
+
 
 ### Сборка документации в HTML
 
@@ -75,6 +84,8 @@ spring.sql.init.mode=always
 
 ### Ссылки
 
-[https://dbdiagram.io/d](https://dbdiagram.io/d)  
-[https://spec.openapis.org/oas/latest.html](https://spec.openapis.org/oas/latest.html)  
-[https://redocly.github.io/redoc/](https://redocly.github.io/redoc/)  
+ - Spring Boot. Database Initialization [https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto.data-initialization](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto.data-initialization)  
+ - Jakarta Persistence [https://jakarta.ee/specifications/persistence/3.1/jakarta-persistence-spec-3.1](https://jakarta.ee/specifications/persistence/3.1/jakarta-persistence-spec-3.1)  
+ - dbdiagram [https://dbdiagram.io/d](https://dbdiagram.io/d)  
+ - OpenAPI [https://spec.openapis.org/oas/latest.html](https://spec.openapis.org/oas/latest.html)  
+ - ReDoc [https://redocly.github.io/redoc/](https://redocly.github.io/redoc/)  

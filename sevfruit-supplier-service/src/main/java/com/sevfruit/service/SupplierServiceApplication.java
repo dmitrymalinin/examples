@@ -38,6 +38,8 @@ import com.sevfruit.repo.SupplierRepository;
 @ComponentScan("com.sevfruit.security")
 public class SupplierServiceApplication {
 	private static final Logger logger = LoggerFactory.getLogger(SupplierServiceApplication.class);
+	/** Схема БД */
+	public static final String DB_SCHEMA_NAME = "sevfruit";
 	
 	@Autowired
 	private SupplierRepository supplierRepository;

@@ -1,5 +1,7 @@
 package com.sevfruit.model;
 
+import static com.sevfruit.service.SupplierServiceApplication.DB_SCHEMA_NAME;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,7 +15,7 @@ import jakarta.persistence.Table;
  *
  */
 @Entity
-@Table(name = "SUPPLIER")
+@Table(name = "SUPPLIER", schema = DB_SCHEMA_NAME)
 public class Supplier {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
